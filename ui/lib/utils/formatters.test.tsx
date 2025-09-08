@@ -1,13 +1,49 @@
 import type { WalletToken } from "@/types/wallet";
 import {
+  formatTimestamp,
+  timeSince,
   formatNumber,
   formatAddress,
+  formatHash,
   formatAmountDecimals,
   formatPriceCurrency,
 } from "./formatters";
 import { ethers } from "ethers";
 
 describe("formatter utils", () => {
+  beforeAll(() => {
+    jest.setSystemTime(new Date());
+  });
+
+  describe("formatTimestamp", () => {
+    it("should return 'unknown' for null or undefined input", () => {
+      expect(formatTimestamp(null)).toBe("unknown");
+      expect(formatTimestamp(undefined)).toBe("unknown");
+    });
+
+    it("should correctly format a Unix timestamp (seconds) to a UTC string", () => {
+      const timestampInSeconds = 1672531200; // 2023-01-01 00:00:00 UTC
+      const expectedDate = new Date(timestampInSeconds * 1000);
+      expect(formatTimestamp(timestampInSeconds)).toBe(
+        expectedDate.toUTCString()
+      );
+    });
+
+    it("should correctly format the Unix epoch timestamp", () => {
+      const timestampInSeconds = 0;
+      const expectedDate = new Date(0);
+      expect(formatTimestamp(timestampInSeconds)).toBe(
+        expectedDate.toUTCString()
+      );
+    });
+
+    it("should handle a recent timestamp", () => {
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      const expectedDate = new Date(nowInSeconds * 1000);
+      expect(formatTimestamp(nowInSeconds)).toBe(expectedDate.toUTCString());
+    });
+  });
+
   describe("formatNumber", () => {
     it("should return an empty string for null or undefined input", () => {
       expect(formatNumber(null)).toBe("unknown");
@@ -31,6 +67,61 @@ describe("formatter utils", () => {
     });
   });
 
+  describe("timeSince", () => {
+    const now = Date.now();
+
+    it("should return an empty string for null or undefined input", () => {
+      expect(timeSince(null)).toBe("unknown");
+      expect(timeSince(undefined)).toBe("unknown");
+    });
+
+    it("should correctly return for the Unix epoch timestamp", () => {
+      const timestampInSeconds = 0;
+      const expectedDate = new Date(0);
+      expect(timeSince(timestampInSeconds)).toContain("years ago");
+    });
+
+    it('should return "just now" for times less than a minute ago', () => {
+      const secondsAgo = Math.floor(now / 1000) - 30;
+      expect(timeSince(secondsAgo)).toBe("30 seconds ago");
+    });
+
+    it('should return "1 minute ago"', () => {
+      const minuteAgo = Math.floor(now / 1000) - 60;
+      expect(timeSince(minuteAgo)).toBe("1 minute ago");
+    });
+
+    it('should return "X minutes ago"', () => {
+      const minutesAgo = Math.floor(now / 1000) - 10 * 60;
+      expect(timeSince(minutesAgo)).toBe("10 minutes ago");
+    });
+
+    it('should return "1 hour ago"', () => {
+      const hourAgo = Math.floor(now / 1000) - 60 * 60;
+      expect(timeSince(hourAgo)).toBe("1 hour ago");
+    });
+
+    it('should return "X hours ago"', () => {
+      const hoursAgo = Math.floor(now / 1000) - 5 * 60 * 60;
+      expect(timeSince(hoursAgo)).toBe("5 hours ago");
+    });
+
+    it('should return "1 day ago"', () => {
+      const dayAgo = Math.floor(now / 1000) - 24 * 60 * 60;
+      expect(timeSince(dayAgo)).toBe("1 day ago");
+    });
+
+    it('should return "X days ago"', () => {
+      const daysAgo = Math.floor(now / 1000) - 10 * 24 * 60 * 60;
+      expect(timeSince(daysAgo)).toBe("10 days ago");
+    });
+
+    it("should handle future timestamps gracefully", () => {
+      const futureTime = Math.floor(now / 1000) + 60 * 60;
+      expect(timeSince(futureTime)).toBe("just now");
+    });
+  });
+
   describe("formatAddress", () => {
     it("should return 'unknown' for null, undefined, or empty input", () => {
       expect(formatAddress(null)).toBe("");
@@ -48,6 +139,27 @@ describe("formatter utils", () => {
       const nonHexString = "not_a_hex_string_but_long_enough_to_be_truncated";
       const expected = "not_a_...ated";
       expect(formatAddress(nonHexString)).toBe(expected);
+    });
+  });
+
+  describe("formatHash", () => {
+    it("should return 'unknown' for null, undefined, or empty input", () => {
+      expect(formatHash(null)).toBe("");
+      expect(formatHash(undefined)).toBe("");
+      expect(formatHash("")).toBe("");
+    });
+
+    it("should correctly truncate a standard Ethereum address", () => {
+      const address =
+        "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd";
+      const expected = "0x1234567890...";
+      expect(formatHash(address)).toBe(expected);
+    });
+
+    it("should handle addresses that are not hex strings", () => {
+      const nonHexString = "not_a_hex_string_but_long_enough_to_be_truncated";
+      const expected = "not_a_hex_st...";
+      expect(formatHash(nonHexString)).toBe(expected);
     });
   });
 

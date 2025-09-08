@@ -9,5 +9,10 @@ describe("dashboard", () => {
     cy.get("[data-cy='transactions-count']").contains(
       "Transactions (Last 100 Blocks):"
     );
+
+    cy.get("[data-cy='block']").should("be.visible");
+    cy.get("[data-cy='block']").contains("Latest Block");
+    cy.get("[data-cy='block']").contains("Time");
+    cy.get("[data-cy='block']").contains("Transactions");
   });
 });
