@@ -27,7 +27,7 @@ export const formatTransaction = (
   return {
     hash: formatHash(transaction.hash),
     chainId: transaction.chainId.toString(),
-    // @ts-ignore
+    // @ts-expect-error Transaction index exists on the transaction response
     transactionIndex: transaction.transactionIndex ?? 0,
     from: formatAddress(transaction.from),
     to: formatAddress(transaction.to),

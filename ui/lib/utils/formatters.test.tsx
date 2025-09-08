@@ -78,7 +78,6 @@ describe("formatter utils", () => {
 
     it("should correctly return for the Unix epoch timestamp", () => {
       const timestampInSeconds = 0;
-      const expectedDate = new Date(0);
       expect(timeSince(timestampInSeconds)).toContain("years ago");
     });
 

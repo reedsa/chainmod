@@ -15,7 +15,7 @@ export default async function LatestTransactions({
 }: LatestTransactionsProps) {
   const latestBlocks = await blocks;
   const [{ value: latestTokenPrice }] = await tokenPrices;
-  let latestTransactions = await getLatestTransactions(
+  const latestTransactions = await getLatestTransactions(
     latestBlocks,
     latestTokenPrice
   );

@@ -17,7 +17,7 @@ export const getLatestBlocks = async (
       throw new Error("Could not get the latest block. Please try again.");
     }
 
-    let latestBlockPromises: Promise<BlockWithTransactions>[] = [];
+    const latestBlockPromises: Promise<BlockWithTransactions>[] = [];
     for (let i = 0; i < numBlocks; i++) {
       const blockNumber = latestBlockNumber - i;
       latestBlockPromises.push(
@@ -53,7 +53,7 @@ export const getLatestTransactions = async (
         return (a.blockNumber ?? 0) - (b.blockNumber ?? 0);
       }
 
-      // @ts-ignore
+      // @ts-expect-error Transaction index is part of the response
       return (a.transactionIndex ?? 0) - (b.transactionIndex ?? 0);
     });
 

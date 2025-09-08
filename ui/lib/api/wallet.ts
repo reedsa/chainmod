@@ -46,9 +46,9 @@ export const getTokensForAddress = async (address: string) => {
     );
 
     tokens = sortTokensByBalance(tokenMetadata).map(formatWalletToken);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error fetching token balances:", error);
-    throw new Error(error);
+    throw error;
   }
 
   return tokens;

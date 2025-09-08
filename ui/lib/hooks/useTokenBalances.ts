@@ -14,8 +14,10 @@ export const useTokenBalances = (address: Address) => {
         setIsLoading(true);
         const tokens = await getTokensForAddress(address);
         setTokens(tokens);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error) {
+        if (typeof error === "string") {
+          setError(`Failed to fetch tokens. ${error}`);
+        }
       } finally {
         setIsLoading(false);
       }

@@ -1,6 +1,7 @@
 import type { Token } from "@/types/tokens";
 import { formatToken } from "./token";
 import { sortTokensByBalance } from "./token";
+import { WalletToken } from "@/types/wallet";
 
 const mockToken: Token = {
   Trade: {
@@ -25,7 +26,7 @@ const mockToken: Token = {
 describe("Token Formatters", () => {
   describe("formatToken", () => {
     it("formats token properties correctly", () => {
-      const result = formatToken(mockToken as any);
+      const result = formatToken(mockToken);
       expect(result).toEqual({
         contractAddress: "0x1234...5678",
         name: "TestToken",
@@ -41,7 +42,7 @@ describe("Token Formatters", () => {
     it("formats small amounts correctly", () => {
       const token: Token = { ...mockToken, amount: "0.1" };
 
-      const result = formatToken(token as any);
+      const result = formatToken(token);
       expect(result).toEqual({
         contractAddress: "0x1234...5678",
         name: "TestToken",
@@ -57,7 +58,7 @@ describe("Token Formatters", () => {
     it("handles zero amount", () => {
       const token: Token = { ...mockToken, amount: "0" };
 
-      const result = formatToken(token as any);
+      const result = formatToken(token);
       expect(result).toEqual({
         contractAddress: "0x1234...5678",
         name: "TestToken",
@@ -73,127 +74,191 @@ describe("Token Formatters", () => {
 
   describe("sortTokensByBalance", () => {
     it("sorts tokens by balance in descending order", () => {
-      const tokens = [
+      const tokens: WalletToken[] = [
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "1",
           tokenMetadata: {
             symbol: "TKA",
             decimals: 18,
+            logo: "",
+            name: "TknA",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "2",
           tokenMetadata: {
             symbol: "TKB",
             decimals: 18,
+            logo: "",
+            name: "TknB",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "3",
           tokenMetadata: {
             symbol: "TKC",
             decimals: 18,
+            logo: "",
+            name: "TknC",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
       ];
-      const result = sortTokensByBalance(tokens as any);
+      const result = sortTokensByBalance(tokens);
       const sortedTokens = result.map((token) => token.tokenMetadata.symbol);
       expect(sortedTokens).toEqual(["TKC", "TKB", "TKA"]);
     });
 
     it("returns an empty array if given an empty array", () => {
-      const tokens: any[] = [];
+      const tokens: WalletToken[] = [];
       const result = sortTokensByBalance(tokens);
       expect(result).toEqual([]);
     });
 
     it("handles an array with a single token", () => {
-      const tokens = [
+      const tokens: WalletToken[] = [
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "1",
           tokenMetadata: {
             symbol: "TKA",
             decimals: 18,
+            logo: "",
+            name: "TknA",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
       ];
-      const result = sortTokensByBalance(tokens as any);
+      const result = sortTokensByBalance(tokens);
       expect(result).toEqual([
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "1",
           tokenMetadata: {
             symbol: "TKA",
             decimals: 18,
+            logo: "",
+            name: "TknA",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
       ]);
     });
 
     it("correctly sorts tokens with equal balances", () => {
-      const tokens = [
+      const tokens: WalletToken[] = [
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "5",
           tokenMetadata: {
             symbol: "TKA",
             decimals: 18,
+            logo: "",
+            name: "TknA",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "5",
           tokenMetadata: {
             symbol: "TKB",
             decimals: 18,
+            logo: "",
+            name: "TknB",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
         {
+          address: "0x1",
+          network: "eth-mainnet",
+          tokenAddress: "0x1",
           tokenBalance: "6",
           tokenMetadata: {
             symbol: "TKC",
             decimals: 18,
+            logo: "",
+            name: "TknC",
           },
           tokenPrices: [
             {
               value: "10",
+              currency: "usd",
+              lastUpdatedAt: new Date().toISOString(),
             },
           ],
+          error: "",
         },
       ];
-      const result = sortTokensByBalance(tokens as any);
+      const result = sortTokensByBalance(tokens);
       // The order of tokens with equal balances is not guaranteed to be stable,
       // but they should be grouped together after the larger balance.
       expect(result[0].tokenMetadata.symbol).toEqual("TKC");

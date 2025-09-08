@@ -1,5 +1,4 @@
 import React from "react";
-import type { FormattedWalletToken } from "@/types/wallet";
 import Tokens from "./Tokens";
 
 describe("<Tokens />", () => {

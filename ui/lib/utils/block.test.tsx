@@ -1,3 +1,4 @@
+import { BigNumber, type BlockWithTransactions } from "alchemy-sdk";
 import { formatBlockInfo } from "./block";
 
 describe("block utils", () => {
@@ -6,27 +7,29 @@ describe("block utils", () => {
   });
 
   describe("formatBlockInfo", () => {
-    const now = Date.now();
-
     it("should return null for null or undefined block", () => {
       expect(formatBlockInfo(null)).toBeNull();
       expect(formatBlockInfo(undefined)).toBeNull();
     });
 
     it("should correctly process a block and format its details", () => {
-      const mockBlock = {
+      const mockBlock: BlockWithTransactions = {
         hash: "0x123",
         number: 12345678,
         timestamp: Date.now(),
         transactions: new Array(150),
         miner: "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
         difficulty: 0,
-        baseFeePerGas: BigInt("0"),
-        gasLimit: BigInt("21000000"),
-        gasUsed: BigInt("21000000"),
+        baseFeePerGas: BigNumber.from(0),
+        gasLimit: BigNumber.from(21000000),
+        gasUsed: BigNumber.from(21000000),
+        parentHash: "",
+        nonce: "",
+        extraData: "",
+        _difficulty: BigNumber.from(0),
       };
 
-      const result = formatBlockInfo(mockBlock as any);
+      const result = formatBlockInfo(mockBlock);
 
       expect(result).toEqual({
         hash: "0x123...",
@@ -43,19 +46,23 @@ describe("block utils", () => {
     });
 
     it("should handle a block with zero transactions", () => {
-      const mockBlock = {
+      const mockBlock: BlockWithTransactions = {
         hash: "0x123",
         number: 12345678,
         timestamp: Date.now(),
-        transactions: new Array(),
+        transactions: [],
         miner: "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
         difficulty: 0,
-        baseFeePerGas: BigInt("0"),
-        gasLimit: BigInt("21000000"),
-        gasUsed: BigInt("21000000"),
+        baseFeePerGas: BigNumber.from(0),
+        gasLimit: BigNumber.from(21000000),
+        gasUsed: BigNumber.from(21000000),
+        parentHash: "",
+        nonce: "",
+        extraData: "",
+        _difficulty: BigNumber.from(0),
       };
 
-      const result = formatBlockInfo(mockBlock as any);
+      const result = formatBlockInfo(mockBlock);
 
       expect(result).toEqual({
         hash: "0x123...",

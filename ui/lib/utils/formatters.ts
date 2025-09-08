@@ -29,7 +29,7 @@ export function formatAmountDecimals(
   let amount = 0n;
   try {
     amount = ethers.toBigInt(hexAmount);
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 
