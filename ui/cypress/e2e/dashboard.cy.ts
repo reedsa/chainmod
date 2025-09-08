@@ -3,5 +3,8 @@ describe("dashboard", () => {
     cy.visit("/");
 
     cy.get("[data-cy='navigation'").should("be.visible");
+
+    cy.get("[data-cy='status']").should("be.visible");
+    cy.get("[data-cy='status']").contains("Price");
   });
 });

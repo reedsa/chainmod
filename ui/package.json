@@ -13,7 +13,9 @@
     "cy:run": "cypress run && cypress run --component"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@rainbow-me/rainbowkit": "^2.2.8",
+    "alchemy-sdk": "^3.6.3",
     "ethers": "^6.15.0",
     "next": "15.5.2",
     "react": "19.1.0",
