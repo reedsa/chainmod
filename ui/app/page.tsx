@@ -6,6 +6,7 @@ import { getTokenPrices } from "@/lib/api/tokens";
 import { getLatestBlocks } from "@/lib/api/blocks";
 import LatestBlock from "./_components/LatestBlock";
 import TopTokens from "./_components/TopTokens";
+import LatestTransactions from "./_components/LatestTransactions";
 
 export default async function Home() {
   const tokenPrices = getTokenPrices("ETH");
@@ -32,6 +33,12 @@ export default async function Home() {
       <Panel title="Top Tokens (Volume by Value)" gridCols={2} data-cy="tokens">
         <Suspense fallback={<Loading>Loading top tokens...</Loading>}>
           <TopTokens />
+        </Suspense>
+      </Panel>
+
+      <Panel title="Latest Transactions" gridCols={2} data-cy="transactions">
+        <Suspense fallback={<Loading>Loading latest transactions...</Loading>}>
+          <LatestTransactions blocks={blocks} tokenPrices={tokenPrices} />
         </Suspense>
       </Panel>
     </main>

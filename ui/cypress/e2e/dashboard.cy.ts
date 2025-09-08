@@ -20,5 +20,16 @@ describe("dashboard", () => {
     cy.get("[data-cy='tokens-list']").children().should("have.length", 10);
     cy.get("[data-cy='tokens-list']").first().contains("USD");
     cy.get("[data-cy='tokens-list']").first().contains("Trade Volume");
+
+    cy.get("[data-cy='transactions']").should("be.visible");
+    cy.get("[data-cy='transactions']").contains("Latest Transactions");
+    cy.get("[data-cy='transactions-list']")
+      .children()
+      .should("have.length", 10);
+    cy.get("[data-cy='transactions-list']").first().contains("Hash").and;
+    cy.get("[data-cy='transactions-list']").first().contains("From");
+    cy.get("[data-cy='transactions-list']").first().contains("To");
+    cy.get("[data-cy='transactions-list']").first().contains("Value");
+    cy.get("[data-cy='transactions-list']").first().contains("Gas Price");
   });
 });
