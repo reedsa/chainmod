@@ -1,0 +1,21 @@
+{
+  "node": {
+    "7fbe11a5c523f91eca45a957894e5761faea8bbe5a": {
+      "workers": {
+        "app/wallet/page": {
+          "moduleId": "748441",
+          "async": false,
+          "exportedName": "getTokensForAddress",
+          "filename": "lib/api/wallet.ts"
+        }
+      },
+      "layer": {
+        "app/wallet/page": "action-browser"
+      },
+      "filename": "lib/api/wallet.ts",
+      "exportedName": "getTokensForAddress"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "oybSUsYG/zv2LxQ9hsnjCUBlrN0iRzRSuc6wLtpbp+c="
+}
