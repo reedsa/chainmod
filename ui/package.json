@@ -13,10 +13,14 @@
     "cy:run": "cypress run"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.8",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "ts-jest": "^29.4.1"
+    "ts-jest": "^29.4.1",
+    "viem": "2.29.2",
+    "wagmi": "^2.15.6",
+    "@tanstack/react-query": "^5.55.3"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",

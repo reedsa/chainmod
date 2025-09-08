@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Providers } from "./providers";
 
 import "./globals.css";
+import "@rainbow-me/rainbowkit/styles.css";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Navigation from "@/components/Navigation";
 
 const geistSans = Geist({
@@ -29,12 +32,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="container mx-auto p-4">
-          <header className="flex justify-between items-center rounded-lg pl-4 mt-6 mb-0 h-[55px] bg-blue-900">
-            <Navigation />
-          </header>
-          {children}
-        </div>
+        <Providers>
+          <div className="container mx-auto p-4">
+            <header className="flex justify-between items-center rounded-lg pl-4 mt-6 mb-0 h-[55px] bg-blue-900">
+              <Navigation />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  padding: 12,
+                }}
+              >
+                <ConnectButton />
+              </div>
+            </header>
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
