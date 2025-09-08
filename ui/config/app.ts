@@ -5,10 +5,12 @@ const CONFIG_DEFAULTS = {
     decimals: 18,
     logo: "https://static.cdnlogo.com/logos/e/81/ethereum-eth.svg",
   },
+  maxBlocksHistory: 100,
 };
 
 const TEST_CONFIG = {
   ...CONFIG_DEFAULTS,
+  maxBlocksHistory: 1,
 };
 
 const PROD_CONFIG = {

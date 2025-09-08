@@ -1,5 +1,8 @@
 import type { HistoricalPriceDataPoint } from "alchemy-sdk";
+import { Suspense } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/16/solid";
+import Loading from "../../components/Loading";
+import TransactionsContainer from "./TransactionsChart/TransactionsContainer";
 
 interface ChainStatusProps {
   tokenPrices: Promise<HistoricalPriceDataPoint[]>;
@@ -34,6 +37,20 @@ export default async function ChainStatus({ tokenPrices }: ChainStatusProps) {
             )}
           </div>
         </div>
+      </div>
+      <div
+        className="flex-1 flex-col items-center justify-items-end"
+        data-cy="transactions-chart"
+      >
+        <Suspense
+          fallback={
+            <Loading width="300px" height="120px">
+              Loading historical transactions...
+            </Loading>
+          }
+        >
+          <TransactionsContainer />
+        </Suspense>
       </div>
     </div>
   );

@@ -6,5 +6,8 @@ describe("dashboard", () => {
 
     cy.get("[data-cy='status']").should("be.visible");
     cy.get("[data-cy='status']").contains("Price");
+    cy.get("[data-cy='transactions-count']").contains(
+      "Transactions (Last 100 Blocks):"
+    );
   });
 });
