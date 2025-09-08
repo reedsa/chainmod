@@ -1,4 +1,5 @@
 import type { Token } from "@/types/tokens";
+import { formatToken } from "./token";
 import { sortTokensByBalance } from "./token";
 
 const mockToken: Token = {
@@ -22,6 +23,54 @@ const mockToken: Token = {
 };
 
 describe("Token Formatters", () => {
+  describe("formatToken", () => {
+    it("formats token properties correctly", () => {
+      const result = formatToken(mockToken as any);
+      expect(result).toEqual({
+        contractAddress: "0x1234...5678",
+        name: "TestToken",
+        symbol: "TTK",
+        amount: "1234.57",
+        buyers: "1",
+        sellers: "1",
+        usd: "$1.00",
+        logo: "",
+      });
+    });
+
+    it("formats small amounts correctly", () => {
+      const token: Token = { ...mockToken, amount: "0.1" };
+
+      const result = formatToken(token as any);
+      expect(result).toEqual({
+        contractAddress: "0x1234...5678",
+        name: "TestToken",
+        symbol: "TTK",
+        amount: "0.10",
+        buyers: "1",
+        sellers: "1",
+        usd: "$1.00",
+        logo: "",
+      });
+    });
+
+    it("handles zero amount", () => {
+      const token: Token = { ...mockToken, amount: "0" };
+
+      const result = formatToken(token as any);
+      expect(result).toEqual({
+        contractAddress: "0x1234...5678",
+        name: "TestToken",
+        symbol: "TTK",
+        amount: "0.00",
+        buyers: "1",
+        sellers: "1",
+        usd: "$1.00",
+        logo: "",
+      });
+    });
+  });
+
   describe("sortTokensByBalance", () => {
     it("sorts tokens by balance in descending order", () => {
       const tokens = [

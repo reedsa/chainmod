@@ -41,6 +41,14 @@ export function formatAmountDecimals(
   return parseFloat(formattedAmount);
 }
 
+export function formatCurrency(amount: string): string {
+  if (amount === null || amount === undefined) return "unknown";
+  return formatNumber(parseFloat(amount), {
+    style: "currency",
+    currency: "usd",
+  });
+}
+
 export function formatPriceCurrency(token: WalletToken): string {
   if (!token) return "unknown";
 

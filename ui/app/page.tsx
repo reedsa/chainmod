@@ -5,6 +5,7 @@ import ChainStatus from "./_components/ChainStatus";
 import { getTokenPrices } from "@/lib/api/tokens";
 import { getLatestBlocks } from "@/lib/api/blocks";
 import LatestBlock from "./_components/LatestBlock";
+import TopTokens from "./_components/TopTokens";
 
 export default async function Home() {
   const tokenPrices = getTokenPrices("ETH");
@@ -25,6 +26,12 @@ export default async function Home() {
           fallback={<Loading>Loading latest block information...</Loading>}
         >
           <LatestBlock blocks={blocks} />
+        </Suspense>
+      </Panel>
+
+      <Panel title="Top Tokens (Volume by Value)" gridCols={2} data-cy="tokens">
+        <Suspense fallback={<Loading>Loading top tokens...</Loading>}>
+          <TopTokens />
         </Suspense>
       </Panel>
     </main>

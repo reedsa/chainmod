@@ -6,6 +6,7 @@ import {
   formatAddress,
   formatHash,
   formatAmountDecimals,
+  formatCurrency,
   formatPriceCurrency,
 } from "./formatters";
 import { ethers } from "ethers";
@@ -226,6 +227,30 @@ describe("formatter utils", () => {
     it("should show all decimals if precision is not specified", () => {
       const amount = "123456789012345678"; // 0.123456789012345678
       expect(formatAmountDecimals(amount, 18)).toBe(0.12345678901234568);
+    });
+  });
+
+  describe("formatCurrency", () => {
+    it("should return 'unknown' for null or undefined input", () => {
+      expect(formatCurrency(null)).toBe("unknown");
+      expect(formatCurrency(undefined)).toBe("unknown");
+    });
+
+    it("should format zero as currency", () => {
+      expect(formatCurrency("0")).toBe("$0.00");
+    });
+
+    it("should format a whole number as currency", () => {
+      expect(formatCurrency("1234")).toBe("$1,234.00");
+    });
+
+    it("should format a decimal number as currency", () => {
+      expect(formatCurrency("1234.56")).toBe("$1,234.56");
+    });
+
+    it("should round to two decimal places", () => {
+      expect(formatCurrency("123.456")).toBe("$123.46");
+      expect(formatCurrency("99.999")).toBe("$100.00");
     });
   });
 

@@ -1,9 +1,24 @@
+import type { Token, FormattedToken } from "@/types/tokens";
 import type { WalletToken, FormattedWalletToken } from "@/types/wallet";
 import {
   formatAddress,
   formatAmountDecimals,
+  formatCurrency,
   formatPriceCurrency,
 } from "./formatters";
+
+export const formatToken = (token: Token): FormattedToken => {
+  return {
+    contractAddress: formatAddress(token.Trade.Currency.SmartContract),
+    name: token.Trade.Currency.Name,
+    symbol: token.Trade.Currency.Symbol,
+    amount: parseFloat(token.amount).toFixed(2),
+    buyers: token.buyers,
+    sellers: token.sellers,
+    usd: formatCurrency(token.usd),
+    logo: "",
+  };
+};
 
 export const formatWalletToken = (token: WalletToken): FormattedWalletToken => {
   let formattedTokenBalance = formatAmountDecimals(
