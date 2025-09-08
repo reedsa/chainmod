@@ -13,17 +13,15 @@ describe("<Panel />", () => {
     cy.get("[data-cy='panel']").contains("Content");
   });
 
-  it("renders different widths", () => {
-    cy.mount(<Panel className="md:col-span-2 lg:col-span-4">Content</Panel>);
-    cy.get("[data-cy='panel']").should(
-      "have.class",
-      "md:col-span-2 lg:col-span-4"
-    );
+  it("renders a large colspan", () => {
+    cy.mount(<Panel gridCols={4}>Content</Panel>);
+    cy.get("[data-cy='panel']").should("have.class", "md:col-span-2");
+    cy.get("[data-cy='panel']").should("have.class", "lg:col-span-4");
+  });
 
-    cy.mount(<Panel className="md:col-span-2 lg:col-span-2">Content</Panel>);
-    cy.get("[data-cy='panel']").should(
-      "have.class",
-      "md:col-span-2 lg:col-span-2"
-    );
+  it("renders a the specified colspan", () => {
+    cy.mount(<Panel gridCols={2}>Content</Panel>);
+    cy.get("[data-cy='panel']").should("have.class", "md:col-span-2");
+    cy.get("[data-cy='panel']").should("have.class", "lg:col-span-2");
   });
 });

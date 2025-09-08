@@ -17,6 +17,10 @@ const Panel = ({
     type = "content";
   }
 
+  if (!className) {
+    className = "";
+  }
+
   if (type === "error") {
     className += "h-40 text-red-500";
   }
