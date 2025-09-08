@@ -1,9 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useAccount, useBalance } from "wagmi";
 import { formatUnits } from "ethers";
 import Panel from "@/components/Panel";
+import Loading from "@/components/Loading";
 import Balance from "./_components/Balance";
+import Tokens from "./_components/Tokens";
 
 export default function Wallet() {
   const account = useAccount();
@@ -31,6 +34,12 @@ export default function Wallet() {
       <h1 className="text-xl font-bold">Wallet Overview</h1>
       <Panel className="md:col-span-2 lg:col-span-4" data-cy="balance">
         <Balance balanceEther={balanceEther} />
+      </Panel>
+
+      <Panel title="Tokens" gridCols={2} data-cy="tokens">
+        <Suspense fallback={<Loading>Loading wallet...</Loading>}>
+          <Tokens address={account.address} />
+        </Suspense>
       </Panel>
     </main>
   );

@@ -1,0 +1,65 @@
+[
+  {
+    "address": "0xabc123...def456",
+    "network": "ethereum",
+    "tokenAddress": "0x1111111111111111111111111111111111111111",
+    "tokenBalance": "1000.00",
+    "tokenBalanceCurrency": "1",
+    "tokenMetadata": {
+      "decimals": 18,
+      "logo": "",
+      "name": "MockToken",
+      "symbol": "MTK"
+    },
+    "tokenPrices": [
+      {
+        "currency": "USD",
+        "value": "2500.00",
+        "lastUpdatedAt": "2025-09-07T12:00:00Z"
+      }
+    ],
+    "error": ""
+  },
+  {
+    "address": "0xdef789...abc012",
+    "network": "ethereum",
+    "tokenAddress": "0x2222222222222222222222222222222222222222",
+    "tokenBalance": "500.50",
+    "tokenBalanceCurrency": "100",
+    "tokenMetadata": {
+      "decimals": 18,
+      "logo": "",
+      "name": "TestCoin",
+      "symbol": "TST"
+    },
+    "tokenPrices": [
+      {
+        "currency": "USD",
+        "value": "1250.25",
+        "lastUpdatedAt": "2025-09-07T12:05:00Z"
+      }
+    ],
+    "error": ""
+  },
+  {
+    "address": "0x987654...321abc",
+    "network": "ethereum",
+    "tokenAddress": "0x3333333333333333333333333333333333333333",
+    "tokenBalance": "42.42",
+    "tokenBalanceCurrency": "1000",
+    "tokenMetadata": {
+      "decimals": 18,
+      "logo": "",
+      "name": "SampleAsset",
+      "symbol": "SMP"
+    },
+    "tokenPrices": [
+      {
+        "currency": "USD",
+        "value": "105.00",
+        "lastUpdatedAt": "2025-09-07T12:10:00Z"
+      }
+    ],
+    "error": ""
+  }
+]
