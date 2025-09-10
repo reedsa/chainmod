@@ -6,6 +6,7 @@ import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Navigation from "@/components/Navigation";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,6 +49,7 @@ export default function RootLayout({
             </header>
             {children}
           </div>
+          <AnalyticsTracker />
         </Providers>
       </body>
     </html>
