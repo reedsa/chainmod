@@ -1,0 +1,7 @@
+env:
+  - variable: NEXT_PUBLIC_RAINBOWKIT_PROJECT_ID
+    secret: rainbowkit-project-id
+  - variable: ALCHEMY_API_KEY
+    secret: alchemy-api-key
+  - variable: BITQUERY_API_KEY
+    secret: bitquery-api-key
