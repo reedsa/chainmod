@@ -1,4 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { Analytics, getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -14,6 +15,14 @@ const firebaseConfig = {
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
+const db = getFirestore(app);
+
+// Connect to the emulators in development
+if (process.env.NEXT_PUBLIC_USE_EMULATORS === "true") {
+  console.log("Development mode: connecting to Firestore emulator");
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
+}
+
 let analytics: Analytics;
 
 if (typeof window !== "undefined") {
@@ -24,4 +33,4 @@ if (typeof window !== "undefined") {
   });
 }
 
-export { app, analytics };
+export { app, db, analytics };

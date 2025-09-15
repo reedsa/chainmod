@@ -1,11 +1,7 @@
 {
   "hosting": {
     "public": "ui/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
   "firestore": {
     "database": "(default)",
@@ -22,7 +18,10 @@
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        "*.local"
+        "*.local",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        ".runtimeconfig.json"
       ],
       "predeploy": [
         "npm --prefix \"$RESOURCE_DIR\" run lint",
@@ -31,7 +30,8 @@
     }
   ],
   "storage": {
-    "rules": "storage.rules"
+    "rules": "storage.rules",
+    "bucket": "chainmod-81afd.firebasestorage.app"
   },
   "emulators": {
     "auth": {
@@ -42,6 +42,9 @@
     },
     "firestore": {
       "port": 8080
+    },
+    "pubsub": {
+      "port": 8085
     },
     "database": {
       "port": 9000
@@ -69,6 +72,7 @@
       "firebase-debug.log",
       "firebase-debug.*.log",
       "functions"
-    ]
+    ],
+    "alwaysDeployFromSource": true
   }
 }

@@ -26,19 +26,3 @@ export type TopTokensResponse = {
     DEXTradeByTokens: Token[];
   };
 };
-
-export type TokenLogo = {
-  symbol: string | null;
-  logo: string | null;
-};
-
-export type FormattedToken = {
-  contractAddress: string;
-  name: string;
-  symbol: string;
-  amount: string;
-  buyers: string;
-  sellers: string;
-  usd: string;
-  logo: string;
-};

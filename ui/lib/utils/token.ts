@@ -16,7 +16,7 @@ export const formatToken = (token: Token): FormattedToken => {
     buyers: token.buyers,
     sellers: token.sellers,
     usd: formatCurrency(token.usd),
-    logo: "",
+    logo: token.logo,
   };
 };
 
