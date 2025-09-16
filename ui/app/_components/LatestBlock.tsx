@@ -4,9 +4,7 @@ import { formatBlockInfo } from "@/lib/utils/block";
 import { useChainData } from "@/lib/context/ChainDataContext";
 import Loading from "@/components/Loading";
 
-interface LatestBlockProps {}
-
-export default function LatestBlock({}: LatestBlockProps) {
+export default function LatestBlock() {
   const data = useChainData();
 
   if (!data || !data.blocks) {

@@ -5,9 +5,7 @@ import Loading from "../../components/Loading";
 import TransactionsContainer from "./TransactionsChart/TransactionsContainer";
 import { useChainData } from "@/lib/context/ChainDataContext";
 
-interface ChainStatusProps {}
-
-export default function ChainStatus({}: ChainStatusProps) {
+export default function ChainStatus() {
   const data = useChainData();
 
   if (!data || !data.tokenPrices) {

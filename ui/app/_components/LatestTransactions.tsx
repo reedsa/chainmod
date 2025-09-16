@@ -6,9 +6,7 @@ import { useChainData } from "@/lib/context/ChainDataContext";
 import { FormattedTransaction } from "@/types/transactions";
 import { useEffect, useState } from "react";
 
-interface LatestTransactionsProps {}
-
-export default function LatestTransactions({}: LatestTransactionsProps) {
+export default function LatestTransactions() {
   const data = useChainData();
   const [latestTransactions, setLatestTransactions] = useState<
     (FormattedTransaction | null)[] | null
