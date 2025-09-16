@@ -29,29 +29,31 @@ export default function ChainStatus() {
   ).toFixed(2);
 
   return (
-    <div className="flex p-3">
-      <div className="flex-1">
-        <h2 className="uppercase text-xs">Ether Price</h2>
-        <div className="flex flex-row items-center">
-          <span className="text-xl text-white mr-2">${latestTokenPrice}</span>
-          <div className="flex flex-row items-center text-sm">
-            {priceDiff > 0 ? (
-              <div className="flex flex-row items-center text-green-300">
-                <ArrowUpIcon className="size-5" /> ({priceChange}% 24h)
-              </div>
-            ) : (
-              <div className="flex flex-row items-center text-red-300">
-                <ArrowDownIcon className="size-5" />({priceChange}% 24h)
-              </div>
-            )}
+    <div className="mx-auto">
+      <div className="md:flex">
+        <div className="flex-1">
+          <h2 className="uppercase text-xs">Ether Price</h2>
+          <div className="flex flex-row items-center">
+            <span className="text-xl text-white mr-2">${latestTokenPrice}</span>
+            <div className="flex flex-row items-center text-sm">
+              {priceDiff > 0 ? (
+                <div className="flex flex-row items-center text-green-300">
+                  <ArrowUpIcon className="size-5" /> ({priceChange}% 24h)
+                </div>
+              ) : (
+                <div className="flex flex-row items-center text-red-300">
+                  <ArrowDownIcon className="size-5" />({priceChange}% 24h)
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        className="flex-1 flex-col items-center justify-items-end"
-        data-cy="transactions-chart"
-      >
-        <TransactionsContainer />
+        <div
+          className="flex-1 items-center md:justify-items-end"
+          data-cy="transactions-chart"
+        >
+          <TransactionsContainer />
+        </div>
       </div>
     </div>
   );

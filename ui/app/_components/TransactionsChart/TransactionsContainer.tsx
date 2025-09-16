@@ -55,15 +55,15 @@ const TransactionsContainer = () => {
   );
 
   return (
-    <>
+    <div className="max-w-[300px]">
       <TransactionsChart data={data} />
       <div
-        className="text-sm text-white font-bold"
+        className="text-sm text-white font-bold justify-self-end"
         data-cy="transactions-count"
       >
         Transactions (Last 100 Blocks): {totalTransactions}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <Providers>
           <div className="container mx-auto p-4">
-            <header className="flex justify-between items-center rounded-lg pl-4 mt-6 mb-0 h-[55px] bg-blue-900">
+            <header className="flex justify-between items-center rounded-lg pl-4 mt-6 mb-0 h-[55px] bg-blue-900 min-w-md">
               <Navigation />
               <div
                 style={{

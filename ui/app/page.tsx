@@ -13,7 +13,7 @@ export const revalidate = 43200;
 export default async function Home() {
   return (
     <ChainDataProvider>
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 items-start">
+      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 items-start min-w-md">
         <h1 className="text-xl font-bold">Ethereum Dashboard</h1>
 
         <Panel data-cy="status">
