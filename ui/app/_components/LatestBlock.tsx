@@ -1,13 +1,27 @@
-import type { BlockWithTransactions } from "alchemy-sdk";
+"use client";
+
 import { formatBlockInfo } from "@/lib/utils/block";
+import { useChainData } from "@/lib/context/ChainDataContext";
+import Loading from "@/components/Loading";
 
-interface LatestBlockProps {
-  blocks: Promise<BlockWithTransactions[]>;
-}
+interface LatestBlockProps {}
 
-export default async function LatestBlock({ blocks }: LatestBlockProps) {
-  const latestBlocks = await blocks;
-  const formattedBlock = formatBlockInfo(latestBlocks[0]);
+export default function LatestBlock({}: LatestBlockProps) {
+  const data = useChainData();
+
+  if (!data || !data.blocks) {
+    return <Loading>Loading the latest block information...</Loading>;
+  }
+
+  if (data.blocks.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-40 text-red-400">
+        <p>Could not fetch the latest block.</p>
+      </div>
+    );
+  }
+
+  const formattedBlock = formatBlockInfo(data.blocks[0]);
 
   if (!formattedBlock) {
     return (

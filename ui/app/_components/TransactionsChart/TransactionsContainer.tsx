@@ -1,19 +1,47 @@
+"use client";
+
 import { APP_CONFIG } from "@/config/app";
 import type { TransactionCounts } from "@/types/transactions";
 import { getLatestBlocks } from "@/lib/api/blocks";
 import TransactionsChart from "./TransactionsChart";
+import { useEffect, useState } from "react";
+import { BlockWithTransactions } from "alchemy-sdk";
+import Loading from "@/components/Loading";
 
-const TransactionsContainer = async () => {
-  const blocks = await getLatestBlocks(APP_CONFIG.maxBlocksHistory);
+const TransactionsContainer = () => {
+  const [latestBlocks, setLatestBlocks] = useState<
+    BlockWithTransactions[] | null
+  >(null);
+  useEffect(() => {
+    const fetchLatestBlocks = async () => {
+      const latestBlocks = await getLatestBlocks(APP_CONFIG.maxBlocksHistory);
+      setLatestBlocks(latestBlocks);
+    };
+
+    fetchLatestBlocks();
+  }, []);
+
+  if (!latestBlocks) {
+    return <Loading>Loading historical transactions...</Loading>;
+  }
+
+  if (latestBlocks.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-40 text-red-400">
+        <p>Could not fetch the historical transactions.</p>
+      </div>
+    );
+  }
 
   let totalTransactions = 0;
-  const data: TransactionCounts[] = blocks.reduce(
-    (acc: TransactionCounts[], block, index) => {
+  const data: TransactionCounts[] = latestBlocks.reduce(
+    (acc: TransactionCounts[], block: BlockWithTransactions, index: number) => {
       const chunkIndex = Math.floor(index / 10);
       if (!acc[chunkIndex]) {
-        const startBlock = blocks[chunkIndex * 10].number;
+        const startBlock = latestBlocks[chunkIndex * 10].number;
         const endBlock =
-          blocks[Math.min(chunkIndex * 10 + 9, blocks.length - 1)].number;
+          latestBlocks[Math.min(chunkIndex * 10 + 9, latestBlocks.length - 1)]
+            .number;
         acc[chunkIndex] = {
           name: `${startBlock}-${endBlock}`,
           count: 0,

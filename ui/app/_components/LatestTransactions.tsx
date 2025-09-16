@@ -1,26 +1,37 @@
-import type {
-  BlockWithTransactions,
-  HistoricalPriceDataPoint,
-} from "alchemy-sdk";
+"use client";
+
+import Loading from "@/components/Loading";
 import { getLatestTransactions } from "@/lib/api/blocks";
+import { useChainData } from "@/lib/context/ChainDataContext";
+import { FormattedTransaction } from "@/types/transactions";
+import { useEffect, useState } from "react";
 
-interface LatestTransactionsProps {
-  blocks: Promise<BlockWithTransactions[]>;
-  tokenPrices: Promise<HistoricalPriceDataPoint[]>;
-}
+interface LatestTransactionsProps {}
 
-export default async function LatestTransactions({
-  blocks,
-  tokenPrices,
-}: LatestTransactionsProps) {
-  const latestBlocks = await blocks;
-  const [{ value: latestTokenPrice }] = await tokenPrices;
-  const latestTransactions = await getLatestTransactions(
-    latestBlocks,
-    latestTokenPrice
-  );
+export default function LatestTransactions({}: LatestTransactionsProps) {
+  const data = useChainData();
+  const [latestTransactions, setLatestTransactions] = useState<
+    (FormattedTransaction | null)[] | null
+  >(null);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      if (data && data.blocks && data.tokenPrices) {
+        const transactions = await getLatestTransactions(
+          data.blocks,
+          data.tokenPrices[0].value
+        );
+        setLatestTransactions(transactions);
+      }
+    };
+    fetchTransactions();
+  }, [data]);
 
   if (!latestTransactions) {
+    return <Loading>Loading latest transactions...</Loading>;
+  }
+
+  if (latestTransactions.length === 0) {
     return (
       <div className="flex justify-center items-center h-40 text-red-400">
         <p>Could not fetch the latest transactions.</p>

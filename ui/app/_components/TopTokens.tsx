@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getTopTokens } from "@/lib/api/tokens";
 
 export default async function TopTokens() {
+  // Data will be revalidated based on the value in the parent component
   const topTokens = await getTopTokens();
 
   if (!topTokens) {

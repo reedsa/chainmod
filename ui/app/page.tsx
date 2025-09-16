@@ -2,45 +2,42 @@ import Loading from "@/components/Loading";
 import Panel from "@/components/Panel";
 import { Suspense } from "react";
 import ChainStatus from "./_components/ChainStatus";
-import { getTokenPrices } from "@/lib/api/tokens";
-import { getLatestBlocks } from "@/lib/api/blocks";
 import LatestBlock from "./_components/LatestBlock";
 import TopTokens from "./_components/TopTokens";
 import LatestTransactions from "./_components/LatestTransactions";
+import { ChainDataProvider } from "@/lib/context/ChainDataContext";
+
+// This revalidates static data (TopTokens) every 12 hours
+export const revalidate = 43200;
 
 export default async function Home() {
-  const tokenPrices = getTokenPrices("ETH");
-  const blocks = getLatestBlocks();
-
   return (
-    <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 items-start">
-      <h1 className="text-xl font-bold">Ethereum Dashboard</h1>
+    <ChainDataProvider>
+      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 items-start">
+        <h1 className="text-xl font-bold">Ethereum Dashboard</h1>
 
-      <Panel data-cy="status">
-        <Suspense fallback={<Loading>Loading chain status...</Loading>}>
-          <ChainStatus tokenPrices={tokenPrices} />
-        </Suspense>
-      </Panel>
+        <Panel data-cy="status">
+          <ChainStatus />
+        </Panel>
 
-      <Panel title="Latest Block" data-cy="block">
-        <Suspense
-          fallback={<Loading>Loading latest block information...</Loading>}
+        <Panel title="Latest Block" data-cy="block">
+          <LatestBlock />
+        </Panel>
+
+        <Panel
+          title="Top Tokens (Volume by Value)"
+          gridCols={2}
+          data-cy="tokens"
         >
-          <LatestBlock blocks={blocks} />
-        </Suspense>
-      </Panel>
+          <Suspense fallback={<Loading>Loading top tokens...</Loading>}>
+            <TopTokens />
+          </Suspense>
+        </Panel>
 
-      <Panel title="Top Tokens (Volume by Value)" gridCols={2} data-cy="tokens">
-        <Suspense fallback={<Loading>Loading top tokens...</Loading>}>
-          <TopTokens />
-        </Suspense>
-      </Panel>
-
-      <Panel title="Latest Transactions" gridCols={2} data-cy="transactions">
-        <Suspense fallback={<Loading>Loading latest transactions...</Loading>}>
-          <LatestTransactions blocks={blocks} tokenPrices={tokenPrices} />
-        </Suspense>
-      </Panel>
-    </main>
+        <Panel title="Latest Transactions" gridCols={2} data-cy="transactions">
+          <LatestTransactions />
+        </Panel>
+      </main>
+    </ChainDataProvider>
   );
 }

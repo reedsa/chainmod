@@ -1,18 +1,29 @@
-import type { HistoricalPriceDataPoint } from "alchemy-sdk";
-import { Suspense } from "react";
+"use client";
+
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/16/solid";
 import Loading from "../../components/Loading";
 import TransactionsContainer from "./TransactionsChart/TransactionsContainer";
+import { useChainData } from "@/lib/context/ChainDataContext";
 
-interface ChainStatusProps {
-  tokenPrices: Promise<HistoricalPriceDataPoint[]>;
-}
+interface ChainStatusProps {}
 
-export default async function ChainStatus({ tokenPrices }: ChainStatusProps) {
-  const [{ value: prevTokenValue }, { value: latestTokenValue }] =
-    await tokenPrices;
-  const latestTokenPrice = parseFloat(latestTokenValue);
-  const prevTokenPrice = parseFloat(prevTokenValue);
+export default function ChainStatus({}: ChainStatusProps) {
+  const data = useChainData();
+
+  if (!data || !data.tokenPrices) {
+    return <Loading>Loading the latest token price...</Loading>;
+  }
+
+  if (data.tokenPrices.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-40 text-red-400">
+        <p>Could not fetch the latest token price.</p>
+      </div>
+    );
+  }
+
+  const latestTokenPrice = parseFloat(data.tokenPrices[1].value);
+  const prevTokenPrice = parseFloat(data.tokenPrices[0].value);
   const priceDiff = latestTokenPrice - prevTokenPrice;
   const priceChange = (
     ((prevTokenPrice - latestTokenPrice) / prevTokenPrice) *
@@ -42,15 +53,7 @@ export default async function ChainStatus({ tokenPrices }: ChainStatusProps) {
         className="flex-1 flex-col items-center justify-items-end"
         data-cy="transactions-chart"
       >
-        <Suspense
-          fallback={
-            <Loading width="300px" height="120px">
-              Loading historical transactions...
-            </Loading>
-          }
-        >
-          <TransactionsContainer />
-        </Suspense>
+        <TransactionsContainer />
       </div>
     </div>
   );
